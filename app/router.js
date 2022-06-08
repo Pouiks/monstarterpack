@@ -8,6 +8,6 @@ const router = express.Router();
 
 
 
-router.get('users', userController.findUsers);
+router.get('/users', userController.findUsers);
 
 export default router;
