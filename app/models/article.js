@@ -1,4 +1,4 @@
-const db = require('../database').default;
+import db from '../database';
 
 class Article {
     constructor(data) {
@@ -13,4 +13,4 @@ class Article {
     }
 }
 
-module.exports = Article;
+export default Article;

@@ -1,4 +1,4 @@
-const Comment = require('../models/comment');
+import Comment from '../models/comment';
 
 const commentController = {
 
@@ -12,4 +12,4 @@ const commentController = {
     },
 }
 
-module.exports = commentController ;
+export default commentController ;

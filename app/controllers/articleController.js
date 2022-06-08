@@ -1,4 +1,4 @@
-const Article = require('../models/article');
+import Article from '../models/article';
 
 const articleController = {
 
@@ -12,4 +12,4 @@ const articleController = {
     },
 }
 
-module.exports = articleController ;
+export default articleController ;
