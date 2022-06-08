@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --experimental-modules app/index.mjs"
+    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node' nodemon --experimental-modules app/index.mjs"
   },
   "type": "module",
   "repository": {
