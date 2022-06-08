@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head'); %>
+    <title>Admin part</title>
+</head>
+<header>
+    <%- include('../partials/header'); %>        
+</header>
+
+<body>
+    <div class="container">
+        <h1>Je crée mon compte</h1>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Vérification du mot de passe</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn btn-success">Créer mon compte</button>
+        </form>
+        <a class="btn btn-outline-primary" href="/connexion" role="button">J'ai déja un compte'</a>
+    </container>
+    
+</body>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+    
