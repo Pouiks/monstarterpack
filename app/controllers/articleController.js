@@ -44,6 +44,26 @@ const articleController = {
         } catch (error) {
             console.log(error);
         }
+    },
+
+    setOffLine: async(request, response) => {
+        try {
+            const id = request.body.id;
+            const article = Article.setOffline(id);
+            response.status(200).json(`Value modified to ${article.is_online}`, {article});
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    setOnLine: async(request, response) => {
+        try {
+            const id = request.body.id;
+            const article = Article.setOnline(id);
+            response.status(200).json(`Value modified to ${article.is_online}`, {article});
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
 

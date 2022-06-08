@@ -37,6 +37,20 @@ class Article {
         `, [articleId]);
     }
 
+    static async setOnline(articleId){
+        const article = await db.query(`
+            UPDATE "article" SET is_online = true WHERE id = $1 RETURNING *;
+        `, [articleId]);
+        return article.rows[0];
+    }
+
+    static async setOffline(articleId){
+        const article = await db.query(`
+            UPDATE "article" SET is_online = false WHERE id = $1 RETURNING *;
+        `, [articleId]);
+        return article.rows[0];
+    }
+
 
 
 }
