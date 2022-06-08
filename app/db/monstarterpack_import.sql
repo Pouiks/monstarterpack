@@ -25,9 +25,10 @@ CREATE TABLE "article" (
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "is_online" BOOLEAN NOT NULL DEFAULT FALSE,
-    "author" INTEGER REFERENCES "user"("id"),
+    "author" TEXT NOT NULL DEFAULT "Votre admin dévoué",
+    "like" INTEGER NOT NULL DEFAULT 0,
     "created_at" TIMESTAMP DEFAULT NOW(),
-    "updated_at" TIMESTAMP NULL
+    "updated_at" TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE "comment" (
