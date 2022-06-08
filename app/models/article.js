@@ -19,37 +19,38 @@ class Article {
             WHERE id = $1;
         ` [articleId]);
         return article.rows;
-    }
+    };
 
     static async create(article){
         const newArticle = await db.query(`
-            INSERT INTO "article" ("title", "content", "is_online", "author", "like") VALUES ( $1, $2, $3,);
+            INSERT INTO "article" ("title", "content","description", "is_online", "author", "like") VALUES ( $1, $2, $3, $4);
         `, [
             article.title,
             article.content,
+            article.description,
             false
         ]);
-    }
+    };
 
     static async delete(articleId){
         const article = await db.query(`
             DELETE * from article WHERE id = $1
         `, [articleId]);
-    }
+    };
 
     static async setOnline(articleId){
         const article = await db.query(`
             UPDATE "article" SET is_online = true WHERE id = $1 RETURNING *;
         `, [articleId]);
         return article.rows[0];
-    }
+    };
 
     static async setOffline(articleId){
         const article = await db.query(`
             UPDATE "article" SET is_online = false WHERE id = $1 RETURNING *;
         `, [articleId]);
         return article.rows[0];
-    }
+    };
 
 
 

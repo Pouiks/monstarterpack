@@ -27,9 +27,14 @@ const articleController = {
 
     createArticle: async(request, response) => {
         try{
+            const {userId, articleId} = request.params;
             const article = new Article(request.body);
             article.create({
-                title: request.body.title
+                title: request.body.title,
+                content: request.body.content,
+                description: request.body.description,
+                user_id: request.body.user_id,
+                article_id: request.body.article_id
             })
         } catch (error){
             console.error(error);

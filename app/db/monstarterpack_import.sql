@@ -23,12 +23,13 @@ CREATE TABLE "theme" (
 CREATE TABLE "article" (
     "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "is_online" BOOLEAN NOT NULL DEFAULT FALSE,
     "author" TEXT NOT NULL DEFAULT "Votre admin dévoué",
     "like" INTEGER NOT NULL DEFAULT 0,
-    "created_at" TIMESTAMP DEFAULT NOW(),
-    "updated_at" TIMESTAMP DEFAULT NOW()
+    "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE "comment" (
@@ -36,7 +37,8 @@ CREATE TABLE "comment" (
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "user_id" INT REFERENCES "user"(id),
-    "article_id" INT REFERENCES "article"(id)
+    "article_id" INT REFERENCES "article"(id),
+    "created_at" TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE "article_have_comments" (
