@@ -34,7 +34,7 @@ const categoryController = {
             const categoryExist = await Category.findOne(name);
             if(!categoryExist){
                 const category = new Category();
-                category.create({
+                category.createCategory({
                     name: name
                 })
                 response.status(200).json({category});
@@ -50,7 +50,13 @@ const categoryController = {
     delete: async (request, response) => {
         try {
             const name = request.body.name;
-            
+            const categoryExist = await Category.findOne(name);
+            if(!categoryExist){
+                response.json(500).json('Cette catégorie n\'existe pas');
+            }else {
+                await Category.deleteCategory(name);
+                response.status(200).json(`Category ${name} has been delete`);
+            }
         } catch (error) {
             console.error(error);
         }
