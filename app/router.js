@@ -7,7 +7,11 @@ import categoryController from './controllers/categoryController';
 const router = express.Router();
 
 
-
+// GET 
 router.get('/users', userController.findUsers);
+// POST 
+router.post('/createUser', userController.createUser);
+// UPDATE
 
+// DELETE
 export default router;

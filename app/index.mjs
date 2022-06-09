@@ -6,6 +6,8 @@ import express from 'express';
 import router from './router.js'
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import bodyParser from 'body-parser';
+
 
 
 const __dirname = path.resolve();
@@ -21,6 +23,7 @@ app.use(cors('*'));
 //     '/public/css',
 //     express.static(__dirname + '/public/css')
 // );
+app.use(bodyParser.json());
 
 app.use(express.urlencoded());
 app.use(cookieParser());

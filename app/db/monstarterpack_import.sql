@@ -1,6 +1,12 @@
 BEGIN;
 
-DROP TABLE IF EXISTS "user" , "categorie", "theme", "article";
+DROP TABLE IF EXISTS "user",
+"category",
+"theme",
+"article",
+"comment",
+"article_have_comments",
+"user_wrote_comments" CASCADE;
 
 CREATE TABLE "user" (
     "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -10,7 +16,7 @@ CREATE TABLE "user" (
     "role" TEXT NOT NULL DEFAULT 'user'
 );
 
-CREATE TABLE "categorie" (
+CREATE TABLE "category" (
     "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" TEXT NOT NULL
 );
@@ -26,8 +32,9 @@ CREATE TABLE "article" (
     "description" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "is_online" BOOLEAN NOT NULL DEFAULT FALSE,
-    "author" TEXT NOT NULL DEFAULT "Votre admin dévoué",
+    "author" TEXT NOT NULL,
     "like" INTEGER NOT NULL DEFAULT 0,
+    "category_id" INT REFERENCES "category"(id),
     "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -53,7 +60,7 @@ CREATE TABLE "user_wrote_comments" (
     "comment_id" INT REFERENCES "comment"(id)
 );
 
-INSERT INTO "categorie" ("name") VALUES ('Voyage');
+INSERT INTO "category" ("name") VALUES ('Voyage');
 
 INSERT INTO
     "user" ("name", "email", "password", "role")

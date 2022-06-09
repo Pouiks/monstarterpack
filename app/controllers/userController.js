@@ -7,9 +7,9 @@ const userController = {
 
     findUsers : async(request, response) => {
         try{
-            console.log("je passe dans create");
+            console.log('>>>>>>>>>>>>>><');
             const users = await User.findAll();
-            response.status(200).json({users});
+            response.status(200).json(users);
         } catch(err){
             console.error(err);
         }
@@ -45,30 +45,25 @@ const userController = {
 
     createUser: async(request, response) => {
         try {
-            const { name, email, password } = request.body;
-            if (validator.validate(email)) {
+            const data = request.body;
 
-                const userEmail = await User.findByEmail(email)
+                const userEmail = await User.findByEmail(data.email)
                 if (userEmail) {
                     return response.status(409).json("L'Email existe déja.");
                 }
-                bcrypt.hash(password, 5, function (error, bcryptPassword) {
-                    const user = new User(request.body);
-                    console.log(new User(user));
-                    user.create({
-                        name: request.body.name,
-                        email: request.body.email,
+                bcrypt.hash(data.password, 5, function (error, bcryptPassword) {
+                    const user = new User(data);
+                    User.create({
+                        name: data.name,
+                        email: data.email,
                         password: bcryptPassword,
+                        role: data.role
                     });
-                    response.json({
-                        message: `Utilisateur ${user.email} Créée.`
+                    console.log(user);
+                    response.status(200).json({
+                        message: `Utilisateur ${data.email} Créée.`
                     });
                 });
-            } else {
-                response.status(403).json({
-                    error: "Format email invalide"
-                });
-            };
 
         } catch (error) {
             console.log(error);

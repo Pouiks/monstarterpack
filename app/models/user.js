@@ -8,7 +8,6 @@ class User {
     };
 
     static async findAll(){
-        console.log('db/User');
         const users = await db.query(`select * from "user"; `);
         return users.rows;
     };
@@ -28,14 +27,8 @@ class User {
 
     static async create(user){
         const newUser = await db.query(`
-        INSERT INTO "user" ("name", "email", "password")
-        VALUES
-            (
-                '$1',
-                '$2',
-                '$3',
-            );
-        `, [user.name, user.email, user.password]);
+        INSERT INTO "user" ("name", "email", "password","role") VALUES ($1,$2,$3,$4);
+        `, [user.name, user.email, user.password, user.role]);
         return newUser;
     }
 
