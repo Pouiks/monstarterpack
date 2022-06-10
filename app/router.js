@@ -15,6 +15,8 @@ router.get('/articles', articleController.findAllArticles);
 router.get('/comments', commentController.findOneComment);
 router.get('/categories', categoryController.findCategories);
 
+router.get('/articlesByCategory/:id', articleController.byCategory);
+
  // -----------------------------------------------
 
  // FIND ONE
@@ -31,8 +33,13 @@ router.post('/article/create', articleController.createArticle);
 router.post('/article/setOnline', articleController.setOnLine);
 
 // UPDATE
+router.put('/article/incrementLike/:id', articleController.addLike);
+router.put('/article/decrementLike/:id', articleController.removeLike);
+router.put('/user/update/:id', articleController.removeLike);
 
 // DELETE
 router.delete('/comment/delete/:id', commentController.deleteComment);
+router.delete('/category/delete/:id', categoryController.delete);
+router.delete('/user/delete/:id', userController.deleteUser);
 
 export default router;

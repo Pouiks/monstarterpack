@@ -25,6 +25,21 @@ const articleController = {
         }
     },
 
+    byCategory: async(request, response) => {
+        try {
+            const id = request.params.id;
+            const articles = await Article.getArticlesByCategory(id);
+            if(!articles){
+                response.status(500).json('An error occured');
+            } else {
+                response.status(200).json({articles});
+            }
+        } catch (error) {
+            console.error(error);
+            response.status(400).json('category not found');
+        }
+    },
+
     createArticle: async(request, response) => {
         try{
             const data = request.body;
@@ -45,8 +60,8 @@ const articleController = {
 
     deleteArticle: async(request, response) => {
         try {
-            const article = request.body.id;
-            await Article.delete(article);
+            const id = request.body.id;
+            await Article.delete(id);
             response.status(200).json(`Article ${id} has been delete`);
         } catch (error) {
             console.log(error);
@@ -71,7 +86,30 @@ const articleController = {
         } catch (error) {
             console.error(error);
         }
-    }
+    },
+
+    addLike: async(request, response) =>{
+        try {
+            const id = request.params.id;
+            const article = await Article.increment(id);
+            response.status(200).json(`Article ${id} has been incremented`);
+            
+        } catch (error) {
+            console.error(error);
+            response.status(400).json('Value not incremented');
+        }
+    },
+    removeLike: async(request, response) =>{
+        try {
+            const id = request.params.id;
+            const article = await Article.decrement(id);
+            response.status(200).json(`Article ${id} has been decremented`);
+            
+        } catch (error) {
+            console.error(error);
+            response.status(400).json('Value not decremented');
+        }
+    },
 }
 
 export default articleController ;

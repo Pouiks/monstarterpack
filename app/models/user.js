@@ -30,7 +30,20 @@ class User {
         INSERT INTO "user" ("name", "email", "password","role") VALUES ($1,$2,$3,$4);
         `, [user.name, user.email, user.password, user.role]);
         return newUser;
-    }
+    };
+
+    static async update(user){
+        const userToUpdate = await db.query(`
+            UPDATE "user" SET name = $1, email = $2 WHERE id = $3`, [ user.name, user.email, user.id]);
+            return userToUpdate;
+    };
+
+    
+
+    static async delete(id){
+        await db.query(`
+            DELETE FROM "user" WHERE id = $1;`,[id]);
+    };
 
     
 }

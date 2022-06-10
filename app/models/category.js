@@ -14,9 +14,9 @@ class Category {
         return categories.rows;
     };
 
-    static async findOne(name){
+    static async findOne(id){
         const category = await db.query(`
-        SELECT * FROM "category" WHERE "name" = $1;`, [name]
+        SELECT * FROM "category" WHERE "id" = $1;`, [id]
         );
         return category.rows[0];
         
@@ -29,9 +29,9 @@ class Category {
         return category.rows[0];
     };
 
-    static async deleteCategory(name){
+    static async deleteCategory(id){
         const category = await db.query(`
-        DELETE FROM "category" WHERE name = $1;`, [name]);
+        DELETE FROM "category" WHERE "id" = $1;`, [id]);
     };
     
 };

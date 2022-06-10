@@ -50,13 +50,13 @@ const categoryController = {
 
     delete: async (request, response) => {
         try {
-            const name = request.body.name;
-            const categoryExist = await Category.findOne(name);
+            const id = request.params.id;
+            const categoryExist = await Category.findOne(id);
             if(!categoryExist){
                 response.json(500).json('Cette catégorie n\'existe pas');
             }else {
-                await Category.deleteCategory(name);
-                response.status(200).json(`Category ${name} has been delete`);
+                await Category.deleteCategory(id);
+                response.status(200).json(`Category ${id} has been delete`);
             }
         } catch (error) {
             console.error(error);

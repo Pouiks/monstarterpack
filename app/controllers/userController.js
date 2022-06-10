@@ -109,6 +109,37 @@ const userController = {
 
     },
 
+    updateuser: async(request, response) => {
+        try {
+            const data = request.body;
+
+            const findUser = await User.findOne(data.id);
+            if(!findUser){
+                response.status(400).json('User not found');
+            }else {
+                User.update({
+                    id: data.id,
+                    name: data.name,
+                    email: data.email,
+                })
+            }
+        } catch (error) {
+            console.error(error);
+            response.status(500).json('Error occured');
+        }
+    },
+
+    deleteUser: async(request, response) => {
+        try {
+            const id = request.params.id;
+            await User.delete(id);
+            response.status(200).json(`User ${id} has been delete`);
+        } catch (error) {
+            console.log(error);
+            response.status(400).json('Error occured');
+        }
+    },
+
 
 
 
