@@ -2,7 +2,7 @@ import { genSaltSync, hashSync, compareSync } from 'bcrypt';
 
 // Fonction de hashage bcrypt :
 const hashPassword = (password) => {
-    const saltRounds = 4;
+    const saltRounds = 5;
     const salt = genSaltSync(saltRounds);
     const hash = hashSync(password, salt);
 };

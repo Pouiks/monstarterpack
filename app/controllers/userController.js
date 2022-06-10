@@ -1,5 +1,6 @@
 import User from '../models/user';
 import bcrypt from 'bcrypt';
+import jwt from '../services/jwt';
 import validator from "email-validator";
 
 
@@ -73,8 +74,7 @@ const userController = {
 
     login: async (request, response) => {
 
-        const email = request.body.email;
-        const password = request.body.password;
+        const {email, password} = request.body;
         console.log(password);
 
         if (email == null || password == null) {
@@ -82,7 +82,7 @@ const userController = {
                 'Error': "Il manque l'email ou le password."
             });
         }
-        const user = await User.loginByEmail(email);
+        const user = await User.findByEmail(email);
         if (!user) {
             return response.status(404).json({
                 'error': 'Aucune adresse mail correspondante en BDD.'
@@ -90,15 +90,25 @@ const userController = {
         } else {
 
             // If crypt password match, return the user with token
-            bcrypt.compare(password, user.password, function (errBycrypt, resByCrypt) {
+             bcrypt.compare(password, user.password, function  (errBycrypt, resByCrypt) {
                 if (resByCrypt) {
+                    
+                    const token = jwt.generateTokenForUser(user);
+                    // const decodedToken = jwt.verifyToken(token);
+                    // console.log(decodedToken);
+                    const {password, ...rest } = user;
+                    const userInfo = Object.assign({}, {...rest})
+                    console.log(user);
                     response.status(200).json({
-                        user,
-                        'user_id': user.id,
-                        'token': jwt.generateTokenForUser(user),
+                        // user,
+                        // 'user_id': user.id,
+                        'token': token,
+                        userInfo
 
-                    })
-                    // console.log(response);
+                    }).cookie("email", email, {
+                        sameSite: "none",
+                        secure: true
+                      })
                 } else {
                     return response.status(403).json({
                         'error': "Mot de passe invalide."

@@ -32,6 +32,8 @@ router.post('/category/create', categoryController.create);
 router.post('/article/create', articleController.createArticle);
 router.post('/article/setOnline', articleController.setOnLine);
 
+router.post('/api/authenticate', userController.login);
+
 // UPDATE
 router.put('/article/incrementLike/:id', articleController.addLike);
 router.put('/article/decrementLike/:id', articleController.removeLike);

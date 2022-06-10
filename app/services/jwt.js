@@ -1,8 +1,8 @@
-import { sign, verify } from 'jsonwebtoken';
-
+import pkg from 'jsonwebtoken';
+const { sign, verify,  } = pkg;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
-export function generateTokenForUser(userData) {
+const generateTokenForUser = (userData) => {
     return sign({
         user_id: userData.id,
         user_email: userData.email,
@@ -13,8 +13,8 @@ export function generateTokenForUser(userData) {
             expiresIn: '1h'
         }
     );
-}
-export function verifyToken(request, response, next) {
+};
+const verifyToken = (request, response, next)  =>{
     var token = request.headers.authorization;
     console.log(token);
     var jwtToken = verify(token, ACCESS_TOKEN_SECRET);
@@ -23,4 +23,9 @@ export function verifyToken(request, response, next) {
     }
 
 
-}
+};
+
+export default {
+    generateTokenForUser,
+    verifyToken
+};

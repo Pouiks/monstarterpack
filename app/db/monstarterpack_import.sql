@@ -67,7 +67,7 @@ VALUES
     (
         'admin',
         'virgilejoinville@gmail.com',
-        '$2a$04$AyaULLN1uZxgKr4jnTZJ4OaXePUjU1n228GBQoRZ29h3GSHhBnHpO',
+        '$2y$10$q3b963ud16WR7QDi0Jnq/.vrWKV7wQMeKVzrsJ6jY6tI3HhQNL1Ci',
         'admin'
     );
 

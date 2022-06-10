@@ -28,27 +28,27 @@ app.use(bodyParser.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
 
-// app.use((req, res, next) => {
-//     const cookies = req.headers.cookie;
+app.use((req, res, next) => {
+    const cookies = req.headers.cookie;
 
-//     req.cookies = {};
+    req.cookies = {};
 
-//     if (!cookies) {
-//         return next();
-//     }
+    if (!cookies) {
+        return next();
+    }
 
-//     const cookiesArray = cookies.split("; ");
-//     const parsedCookies = {};
+    const cookiesArray = cookies.split("; ");
+    const parsedCookies = {};
 
-//     for (let cookie of cookiesArray) {
-//         const [key, value] = cookie.split("=");
-//         parsedCookies[key] = value;
-//     }
+    for (let cookie of cookiesArray) {
+        const [key, value] = cookie.split("=");
+        parsedCookies[key] = value;
+    }
 
-//     req.cookies = parsedCookies;
+    req.cookies = parsedCookies;
 
-//     next();
-// });
+    next();
+});
 app.use(router);
 // app.use(routerView);
 
