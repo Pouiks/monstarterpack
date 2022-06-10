@@ -13,10 +13,10 @@ const commentController = {
 
     findOneComment: async(request, response) => {
         try {
-            const commentId = request.body.id;
+            const commentId = request.params.id;
             const comment = await Comment.findOne(commentId);
-            if(!article){
-                response.status(500).json('Article not found');
+            if(!comment || []){
+                response.status(400).json('Article not found');
             } else {
                 response.status(200).json({comment});
             }
@@ -27,13 +27,15 @@ const commentController = {
 
     createComment: async(request, response) => {
         try{
-            
+            const data = request.body;
             const comment = new Comment(request.body);
-            comment.create({
-                title: request.body.title,
-                content: request.body.content
+            Comment.create({
+                title: data.title,
+                content: data.content,
+                user_id: data.user_id,
+                article_id: data.article_id
             })
-            response.status(200).json(`Comment created : ${comment}`);
+            response.status(200).json(`Comment created : ${{comment}}`);
         } catch (error){
             console.error(error);
         }
@@ -41,9 +43,10 @@ const commentController = {
 
     deleteComment: async(request, response) => {
         try {
-            const comment = request.body.id;
-            await Comment.delete(comment);
-            response.status(200).json(`Article ${id} has been delete`);
+            const id = request.params.id;
+            console.log(id);
+            await Comment.delete(id);
+            response.status(200).json(`Comment ${id} has been delete`);
         } catch (error) {
             console.log(error);
         }

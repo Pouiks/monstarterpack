@@ -23,13 +23,15 @@ class Article {
 
     static async create(article){
         const newArticle = await db.query(`
-            INSERT INTO "article" ("title", "content","description", "is_online", "author", "like") VALUES ( $1, $2, $3, $4);
+            INSERT INTO "article" ("title", "content","description", category_id, "is_online") VALUES ( $1, $2, $3, $4, $5);
         `, [
             article.title,
             article.content,
             article.description,
+            article.category_id,
             false
         ]);
+        return newArticle.rows;
     };
 
     static async delete(articleId){

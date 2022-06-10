@@ -17,14 +17,14 @@ class Comment {
 
     static async findOne(commentId){
         const comment = await db.query(`
-            SELECT * from comment WHERE id = $1;
+            SELECT * from "comment" WHERE "id" = $1;
         ` [commentId]);
         return comment.rows;
     };
 
     static async create(comment){
         const newComment= await db.query(`
-            INSERT INTO "article" ("title", "content", "user_id", "article_id") VALUES ( $1, $2, $3, $4);
+            INSERT INTO "comment" ("title", "content", "user_id", "article_id") VALUES ( $1, $2, $3, $4);
         `, [
             comment.title,
             comment.content,
@@ -33,10 +33,10 @@ class Comment {
         ]);
     };
 
-    static async delete(articleId){
-        const article = await db.query(`
-            DELETE * from article WHERE id = $1
-        `, [articleId]);
+    static async delete(commentId){
+        const comment = await db.query(`
+            DELETE from "comment" WHERE "id" = $1
+        `, [commentId]);
     };
 
     

@@ -13,12 +13,12 @@ const categoryController = {
 
     findOneCategory: async(request, response) => {
         try {
-            const name = request.body.name;
-            const category = await Category.findOne(name);
+            const id = request.params.id;
+            const category = await Category.findOne(id);
             if(category){
                 response.status(200).json({category});
             } else {
-                response.status(404).message("La catégorie n'existe pas")
+                response.status(404).json("La catégorie n'existe pas")
             }
             
         } catch (error) {
@@ -29,17 +29,18 @@ const categoryController = {
 
     create: async (request, response) => {
         try {
-            const name = request.body.name;
+            const data = request.body;
+            console.log(data.name);
 
-            const categoryExist = await Category.findOne(name);
+            const categoryExist = await Category.findOne(data.name);
             if(!categoryExist){
                 const category = new Category();
-                category.createCategory({
-                    name: name
-                })
-                response.status(200).json({category});
+                Category.createCategory(
+                    data.name
+                )
+                response.status(200).json(category);
             } else {
-                response.status(400).json({error: `category ${name} already exist`});
+                response.status(400).json({error: `category ${data.name} already exist`});
 
             }
         } catch (error) {

@@ -27,17 +27,19 @@ const articleController = {
 
     createArticle: async(request, response) => {
         try{
-            const {userId, articleId} = request.params;
-            const article = new Article(request.body);
-            article.create({
-                title: request.body.title,
-                content: request.body.content,
-                description: request.body.description,
-                user_id: request.body.user_id,
-                article_id: request.body.article_id
-            })
+            const data = request.body;
+            Article.create({
+                title: data.title,
+                content: data.content,
+                description: data.description,
+                category_id: data.category_id
+
+            });
+            response.status(200).json(` Article ${data.title} was created, but he is OFFLINE`);
         } catch (error){
             console.error(error);
+            response.status(500).json('Error occured');
+
         }
     },
 

@@ -32,7 +32,6 @@ CREATE TABLE "article" (
     "description" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "is_online" BOOLEAN NOT NULL DEFAULT FALSE,
-    "author" TEXT NOT NULL,
     "like" INTEGER NOT NULL DEFAULT 0,
     "category_id" INT REFERENCES "category"(id),
     "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),

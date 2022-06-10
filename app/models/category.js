@@ -16,7 +16,7 @@ class Category {
 
     static async findOne(name){
         const category = await db.query(`
-        SELECT * FROM "category WHERE name = $1;`, [name]
+        SELECT * FROM "category" WHERE "name" = $1;`, [name]
         );
         return category.rows[0];
         
@@ -24,7 +24,7 @@ class Category {
 
     static async createCategory(name){
         const category = await db.query(`
-        INSERT INTO "category" ("name") VALUES ('$1')
+        INSERT INTO "category" ("name") VALUES ($1)
         `, [name]);
         return category.rows[0];
     };
