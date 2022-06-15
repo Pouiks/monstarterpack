@@ -13,13 +13,11 @@ const articleController = {
 
     findOneArticle: async(request, response) => {
         try {
-            const articleId = request.body.id;
+            const articleId = request.params.id;
             const article = await Article.findOne(articleId);
-            if(!article){
-                response.status(500).json('Article not found');
-            } else {
+            
                 response.status(200).json({article});
-            }
+            
         } catch (error) {
             console.error(error);
         }
@@ -70,9 +68,9 @@ const articleController = {
 
     setOffLine: async(request, response) => {
         try {
-            const id = request.body.id;
+            const id = request.params.id;
             const article = Article.setOffline(id);
-            response.status(200).json(`Value modified to ${article.is_online}`, {article});
+            response.status(200).json(`Value modified to ${article.is_online}`);
         } catch (error) {
             console.error(error);
         }
@@ -80,11 +78,13 @@ const articleController = {
 
     setOnLine: async(request, response) => {
         try {
-            const id = request.body.id;
+            const id = request.params.id;
+            console.log(id);
             const article = Article.setOnline(id);
-            response.status(200).json(`Value modified to ${article.is_online}`, {article});
+            response.status(200).json(`Value modified to ${article.is_online}`);
         } catch (error) {
             console.error(error);
+            response.status(400).json(error);
         }
     },
 

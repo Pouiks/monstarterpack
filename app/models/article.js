@@ -8,16 +8,16 @@ class Article {
     };
 
     static async findAll(){
-        const articles = await db.query(`select * from "article" ; `);
+        const articles = await db.query(`select * from "article" ORDER BY id DESC; `);
         return articles.rows;
     };
 
     static async  findOne(articleId){
         const article = await db.query(`
-            SELECT * from article
-            JOIN "comment" ON "comment".article_id = "article".id
+            SELECT * from "article"
             WHERE id = $1;
-        ` [articleId]);
+            `, [articleId]);
+            // JOIN "comment" ON "comment".article_id = "article".id
         return article.rows;
     };
 
@@ -42,34 +42,32 @@ class Article {
 
     static async delete(articleId){
         const article = await db.query(`
-            DELETE * from article WHERE id = $1
+            DELETE * from "article" WHERE id = $1
         `, [articleId]);
     };
 
     static async setOnline(articleId){
         const article = await db.query(`
-            UPDATE "article" SET is_online = true WHERE id = $1 RETURNING *;
+            UPDATE "article" SET "is_online" = true WHERE id = $1 RETURNING *;
         `, [articleId]);
-        return article.rows[0];
     };
 
     static async setOffline(articleId){
         const article = await db.query(`
             UPDATE "article" SET is_online = false WHERE id = $1 RETURNING *;
         `, [articleId]);
-        return article.rows[0];
     };
 
     static async increment(id){
         const like = await db.query(`
-            UPDATE ARTICLE SET "like" = "like" + 1 WHERE id = $1 RETURNING *;
+            UPDATE "article" SET "like" = "like" + 1 WHERE id = $1 RETURNING *;
         `, [id]);
         return like.rows[0];
     };
 
     static async decrement(id){
         const like = await db.query(`
-            UPDATE ARTICLE SET "like" = "like" - 1 WHERE id = $1 RETURNING *;
+            UPDATE "article" SET "like" = "like" - 1 WHERE id = $1 RETURNING *;
         `, [id]);
         return like.rows[0];
     };
