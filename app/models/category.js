@@ -22,10 +22,18 @@ class Category {
         
     };
 
-    static async createCategory(name){
+    static async findByName(categoryName){
         const category = await db.query(`
-        INSERT INTO "category" ("name") VALUES ($1)
-        `, [name]);
+        SELECT * FROM "category" WHERE "name" = $1;`, [categoryName]
+        );
+        return category.rows[0];
+        
+    };
+
+
+    static async createCategory(categoryName){
+        const category = await db.query(`
+        INSERT INTO "category" ("name") VALUES ($1)`, [categoryName]);
         return category.rows[0];
     };
 

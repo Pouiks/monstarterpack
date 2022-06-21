@@ -31,6 +31,7 @@ CREATE TABLE "article" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "is_online" BOOLEAN NOT NULL DEFAULT FALSE,
     "like" INTEGER NOT NULL DEFAULT 0,
     "category_id" INT REFERENCES "category"(id),
@@ -59,7 +60,7 @@ CREATE TABLE "user_wrote_comments" (
     "comment_id" INT REFERENCES "comment"(id)
 );
 
-INSERT INTO "category" ("name") VALUES ('Voyage');
+INSERT INTO "category" ("name") VALUES ('Voyages');
 
 INSERT INTO
     "user" ("name", "email", "password", "role")

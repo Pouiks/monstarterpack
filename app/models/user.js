@@ -34,9 +34,15 @@ class User {
 
     static async update(user){
         const userToUpdate = await db.query(`
-            UPDATE "user" SET name = $1, email = $2 WHERE id = $3`, [ user.name, user.email, user.id]);
+            UPDATE "user" SET name = $1, email = $2 WHERE id = $3;`, [ user.name, user.email, user.id]);
             return userToUpdate;
     };
+
+    static async updateToken(user){
+        await db.query(`
+        UPDATE "user" SET refresh_token= $2 WHERE id = $1;`, [user.id, user.refreshToken]
+        );
+    }
 
     
 

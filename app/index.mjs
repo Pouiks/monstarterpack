@@ -7,6 +7,7 @@ import router from './router.js'
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import nodemailer from 'nodemailer';
 
 
 
@@ -27,6 +28,26 @@ app.use(bodyParser.json());
 
 app.use(express.urlencoded());
 app.use(cookieParser());
+
+app.post("send_mail", async(req, res) => {
+    let {text} = req.body;
+
+    const transport = nodemailer.createTransport({
+        host:process.env.MAIL_HOST,
+        port:process.env.MAIL_PORT,
+        auth:{
+            user:process.env.MAIL_HOSTprocess.env.MAIL_USER,
+            pass:process.env.MAIL_PASS
+        }
+    })
+
+    await transport.sendMail({
+        from: process.env.MAIL.FROM,
+        to: "virgilejoinville@gmail.com",
+        subject: "test email",
+        html: `<h2> Voici l'email </h2>`
+    })
+})
 
 app.use((req, res, next) => {
     const cookies = req.headers.cookie;

@@ -29,20 +29,17 @@ const categoryController = {
 
     create: async (request, response) => {
         try {
-            const data = request.body;
-            console.log(data.name);
+            const data = request.body.name;
+            console.log(data);
 
-            const categoryExist = await Category.findOne(data.name);
-            if(!categoryExist){
-                const category = new Category();
-                Category.createCategory(
-                    data.name
-                )
-                response.status(200).json(category);
-            } else {
-                response.status(400).json({error: `category ${data.name} already exist`});
+            const categoryExist = await Category.findByName(data);
+            if(categoryExist){
 
+                response.status(400).json({error: `category ${data} already exist`});
             }
+            
+            Category.createCategory(data);
+            response.status(200).json("categoryExist");
         } catch (error) {
             console.error(error);
         }

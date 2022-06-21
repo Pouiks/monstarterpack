@@ -3,6 +3,9 @@ import userController from './controllers/userController';
 import articleController from './controllers/articleController';
 import commentController from './controllers/commentController';
 import categoryController from './controllers/categoryController';
+import refreshTokenController from './controllers/refreshTokenController';
+import verifyToken from './middlewares/verifyToken.js';
+
 
 const router = express.Router();
 
@@ -12,6 +15,7 @@ const router = express.Router();
 // FIND ALL
 router.get('/users', userController.findUsers);
 router.get('/articles', articleController.findAllArticles);
+router.get('/lastArticles', articleController.findLastFourArticles);
 router.get('/comments', commentController.findOneComment);
 router.get('/categories', categoryController.findCategories);
 
@@ -26,6 +30,7 @@ router.get('/article/:id', articleController.findOneArticle);
 router.get('/articles', articleController.findAllArticles);
 router.get('/comment/:id', commentController.findOneComment);
 router.get('/category/:id', categoryController.findOneCategory);
+router.get('/', refreshTokenController.handleRefreshToken);
 // POST 
 router.post('/user/create', userController.createUser);
 router.post('/comment/create', commentController.createComment);
@@ -33,7 +38,8 @@ router.post('/category/create', categoryController.create);
 router.post('/article/create', articleController.createArticle);
 
 router.post('/api/authenticate', userController.login);
-
+router.post('/api/authorization', verifyToken, userController.authorization);
+router.post("/send_mail", userController.sendMail);
 // UPDATE
 router.put('/article/setOnline/:id', articleController.setOnLine);
 router.put('/article/setOffline/:id', articleController.setOffLine);

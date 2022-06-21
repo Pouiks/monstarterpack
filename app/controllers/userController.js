@@ -1,7 +1,8 @@
 import User from '../models/user';
 import bcrypt from 'bcrypt';
-import jwt from '../services/jwt';
+import jwt from 'jsonwebtoken';
 import validator from "email-validator";
+import nodemailer from 'nodemailer';
 
 
 const userController = {
@@ -43,7 +44,25 @@ const userController = {
             response.status(404).json('Aucun utilisateur avec cet email correspondant.');
         }
     }, 
-
+    sendMail: async (req, res) => {
+        // let {text} = req.body;
+    
+        const transport = nodemailer.createTransport({
+            host:process.env.MAIL_HOST,
+            port:process.env.MAIL_PORT,
+            auth:{
+                user:process.env.MAIL_USER,
+                pass:process.env.MAIL_PASS
+            }
+        })
+    
+        await transport.sendMail({
+            from: process.env.MAIL_FROM,
+            to: "virgilejoinville@gmail.com",
+            subject: "test email",
+            html: `<h2> Voici l'email </h2>`
+        })
+    },
     createUser: async(request, response) => {
         try {
             const data = request.body;
@@ -83,40 +102,40 @@ const userController = {
             });
         }
         const user = await User.findByEmail(email);
-        if (!user) {
-            return response.status(404).json({
-                'error': 'Aucune adresse mail correspondante en BDD.'
-            })
-        } else {
-
-            // If crypt password match, return the user with token
-             bcrypt.compare(password, user.password, function  (errBycrypt, resByCrypt) {
-                if (resByCrypt) {
-                    
-                    const token = jwt.generateTokenForUser(user);
-                    // const decodedToken = jwt.verifyToken(token);
-                    // console.log(decodedToken);
-                    const {password, ...rest } = user;
-                    const userInfo = Object.assign({}, {...rest})
-                    console.log(user);
-                    response.status(200).json({
-                        // user,
-                        // 'user_id': user.id,
-                        'token': token,
-                        userInfo
-
-                    }).cookie("email", email, {
-                        sameSite: "none",
-                        secure: true
-                      })
-                } else {
-                    return response.status(403).json({
-                        'error': "Mot de passe invalide."
-                    });
-                }
-            })
+        console.log(user);
+        if (!user) return response.Status(401); //Unauthorized 
+        // evaluate password 
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            return response.status(400);
         }
+        jwt.sign(
+            user ,
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "1h" },
+            (err, token) => {
+              if (err) {
+                response.status(400).json({err})
+              }
+              response.json({ token });
+            }
+          );
 
+    },
+
+    authorization: async(request, response) => {
+
+        jwt.verify(request.token, process.env.ACCESS_TOKEN_SECRET, (error, results) => {
+            if(error){
+                return response.status(500);
+            }
+            const userData = results.user;
+            const { password, ...authData } = userData;
+      
+            // console.log(results);
+            response.json({ authData });
+        });
+        
     },
 
     updateuser: async(request, response) => {
@@ -138,6 +157,7 @@ const userController = {
             response.status(500).json('Error occured');
         }
     },
+
 
     deleteUser: async(request, response) => {
         try {

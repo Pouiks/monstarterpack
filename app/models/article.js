@@ -8,9 +8,16 @@ class Article {
     };
 
     static async findAll(){
-        const articles = await db.query(`select * from "article" ORDER BY id DESC; `);
+        const articles = await db.query(`select article.*, category.name as category_name from "article" JOIN "category" ON "category".id = "article".category_id ORDER BY id DESC; `);
         return articles.rows;
     };
+
+    static async findLast(){
+        const last = await db.query(`
+        SELECT article.*, category.name as category_name from "article" JOIN "category" ON "category".id = "article".category_id ORDER BY id DESC LIMIT 4;
+        `)
+        return last.rows;
+    }
 
     static async  findOne(articleId){
         const article = await db.query(`
@@ -29,11 +36,12 @@ class Article {
 
     static async create(article){
         const newArticle = await db.query(`
-            INSERT INTO "article" ("title", "content","description", category_id, "is_online") VALUES ( $1, $2, $3, $4, $5);
+            INSERT INTO "article" ("title", "content","description","image", category_id, "is_online") VALUES ( $1, $2, $3, $4, $5, $6);
         `, [
             article.title,
             article.content,
             article.description,
+            article.image,
             article.category_id,
             false
         ]);

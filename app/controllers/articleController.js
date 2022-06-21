@@ -11,6 +11,15 @@ const articleController = {
         }
     },
 
+    findLastFourArticles: async (request, response) => {
+        try {
+            const lastArticles = await Article.findLast();
+            response.status(200).json(lastArticles);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     findOneArticle: async(request, response) => {
         try {
             const articleId = request.params.id;
@@ -22,6 +31,8 @@ const articleController = {
             console.error(error);
         }
     },
+
+
 
     byCategory: async(request, response) => {
         try {
@@ -45,6 +56,7 @@ const articleController = {
                 title: data.title,
                 content: data.content,
                 description: data.description,
+                image: data.image,
                 category_id: data.category_id
 
             });
