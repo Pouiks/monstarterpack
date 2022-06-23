@@ -41,7 +41,6 @@ CREATE TABLE "article" (
 
 CREATE TABLE "comment" (
     "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "user_id" INT REFERENCES "user"(id),
     "article_id" INT REFERENCES "article"(id),

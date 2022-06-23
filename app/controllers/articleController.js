@@ -5,7 +5,7 @@ const articleController = {
     findAllArticles : async(request, response) => {
         try{
             const articles = await Article.findAll();
-            response.status(200).json({articles});
+            response.status(200).json(articles);
         } catch(err){
             console.error(err);
         }
@@ -24,7 +24,7 @@ const articleController = {
         try {
             const articleId = request.params.id;
             const article = await Article.findOne(articleId);
-            
+                console.log(article);
                 response.status(200).json({article});
             
         } catch (error) {

@@ -21,12 +21,18 @@ class Comment {
         ` [commentId]);
         return comment.rows;
     };
-
+    static async getComments(articleId){
+        const comments = await db.query(`
+            SELECT "comment".*, "user".name from "comment" 
+            JOIN "user" ON "user".id = "comment".user_id
+            WHERE "comment".article_id = $1 order by comment.id desc;
+        `, [articleId]);
+        return comments.rows
+    }
     static async create(comment){
         const newComment= await db.query(`
-            INSERT INTO "comment" ("title", "content", "user_id", "article_id") VALUES ( $1, $2, $3, $4);
+            INSERT INTO "comment" ("content", "user_id", "article_id") VALUES ( $1, $2, $3);
         `, [
-            comment.title,
             comment.content,
             comment.user_id,
             comment.article_id

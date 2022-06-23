@@ -19,10 +19,15 @@ class Article {
         return last.rows;
     }
 
+
+
+
     static async  findOne(articleId){
         const article = await db.query(`
-            SELECT * from "article"
-            WHERE id = $1;
+        SELECT article.*, comment.* , category.name as category_name from "article"
+        JOIN "category" ON "category".id = "article".category_id
+        JOIN "comment" ON "comment".article_id = "article".id
+        WHERE article.id = $1;
             `, [articleId]);
             // JOIN "comment" ON "comment".article_id = "article".id
         return article.rows;

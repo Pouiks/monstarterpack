@@ -28,6 +28,7 @@ router.get('/articlesByCategory/:id', articleController.byCategory);
 router.get('/user/:id', userController.findUsers);
 router.get('/article/:id', articleController.findOneArticle);
 router.get('/articles', articleController.findAllArticles);
+router.get('/article/:id/comments', commentController.findCommentByArticle);
 router.get('/comment/:id', commentController.findOneComment);
 router.get('/category/:id', categoryController.findOneCategory);
 router.get('/', refreshTokenController.handleRefreshToken);
