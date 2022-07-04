@@ -94,16 +94,18 @@ const userController = {
     login: async (request, response) => {
 
         const {email, password} = request.body;
-        console.log(password);
+        console.log(email, password);
 
         if (email == null || password == null) {
             return response.status(400).json({
                 'Error': "Il manque l'email ou le password."
             });
         }
+        console.log("recherche de l'email : ")
         const user = await User.findByEmail(email);
+        console.log("APRES : ")
         console.log(user);
-        if (!user) return response.Status(401); //Unauthorized 
+        if (!user) return response.status(401); //Unauthorized 
         // evaluate password 
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
@@ -129,10 +131,10 @@ const userController = {
             if(error){
                 return response.status(500);
             }
-            const userData = results.user;
+            const userData = results;
+            console.log(userData);
             const { password, ...authData } = userData;
       
-            // console.log(results);
             response.json({ authData });
         });
         
