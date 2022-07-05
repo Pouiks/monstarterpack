@@ -49,6 +49,23 @@ const articleController = {
         }
     },
 
+    // byCategoryName: async(request, response) => {
+    //     try {
+    //         const name = request.params.name;
+    //         const articles = await Article.getArticlesByCategoryName(name);
+    //         if(!articles){
+    //             response.status(500).json('An error occured');
+    //         } else {
+    //             response.status(200).json({articles});
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         response.status(400).json('category not found');
+    //     }
+    // },
+
+
+
     createArticle: async(request, response) => {
         try{
             const data = request.body;

@@ -24,12 +24,11 @@ class Article {
 
     static async  findOne(articleId){
         const article = await db.query(`
-        SELECT article.*, comment.* , category.name as category_name from "article"
+        SELECT article.*, comment.* ,category.id as categoryId, category.name as category_name from "article"
         JOIN "category" ON "category".id = "article".category_id
         JOIN "comment" ON "comment".article_id = "article".id
         WHERE article.id = $1;
             `, [articleId]);
-            // JOIN "comment" ON "comment".article_id = "article".id
         return article.rows;
     };
 
@@ -38,6 +37,7 @@ class Article {
         select * from "article" WHERE category_id = $1;`, [categoryId]);
         return articles.rows;
     }
+
 
     static async create(article){
         const newArticle = await db.query(`
