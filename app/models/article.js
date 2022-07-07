@@ -19,8 +19,12 @@ class Article {
         return last.rows;
     }
 
-
-
+    static async getMostLiked(){
+        const articles = await db.query(`
+        select article.*, category.name as category_name from "article" JOIN "category" ON "category".id = "article".category_id ORDER BY "like" DESC LIMIT 8;
+        `);
+        return articles.rows;
+    }
 
     static async  findOne(articleId){
         const article = await db.query(`
@@ -31,6 +35,7 @@ class Article {
             `, [articleId]);
         return article.rows;
     };
+
 
     static async getArticlesByCategory(categoryId){
         const articles = await db.query(`

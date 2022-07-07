@@ -49,6 +49,18 @@ const articleController = {
         }
     },
 
+    getBestArticles: async(request, response) =>{
+        try{
+            const bestArticles = await Article.getMostLiked();
+            if(bestArticles){
+                response.status(200).json({bestArticles});
+            }
+        } catch(e){
+            console.log(e);
+            response.status(500).json("Problem when requesting best liked")
+        }
+    },
+
     // byCategoryName: async(request, response) => {
     //     try {
     //         const name = request.params.name;
@@ -68,6 +80,7 @@ const articleController = {
 
     createArticle: async(request, response) => {
         try{
+            
             const data = request.body;
             Article.create({
                 title: data.title,

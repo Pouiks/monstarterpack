@@ -20,6 +20,7 @@ router.get('/comments', commentController.findOneComment);
 router.get('/categories', categoryController.findCategories);
 
 router.get('/articlesByCategory/:id', articleController.byCategory);
+router.get('/articles/mostLiked', articleController.getBestArticles);
  // -----------------------------------------------
 
  // FIND ONE
